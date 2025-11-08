@@ -1,7 +1,7 @@
-#include "vsop87a_full_velocities.h"
-#include "vsop87_full.h"
-#include "ParticleClass.h"
-#include "VectorClass.h"
+#include "vsop87a_full_velocities.hpp"
+#include "vsop87_full.hpp"
+#include "ParticleClass.hpp"
+#include "VectorClass.hpp"
 #include <vector>
 template <typename T>
 
@@ -45,6 +45,7 @@ void planetProperties(int &jd, std::vector<Particles> &planets){
         { "Neptune", 1.02413e26, 24622e3 }
     };
 
+    int i = 0;
     for(Particle planet : planets){
         double tempPos[3];
         double tempVel[3];
@@ -52,13 +53,14 @@ void planetProperties(int &jd, std::vector<Particles> &planets){
         vsop87a_full::get<planet>(jd, tempPos);
         vsop87a_full_velocities::get<planet>(jd, tempVel);
 
-        Particle planet(
+        Particle <planet> = (
             m_mass = constants[i][1];
             m_radius = constant[i][2];
-            m_position = Vec3(tempPos[0], tempPos[1], tempPos[2])
-            m_velocity = Vec3(tempVel[0], tempVel[1], tempVel[3])
-            m_acceleration = Vec3()
+            m_position = Vec3(tempPos[0], tempPos[1], tempPos[2]);
+            m_velocity = Vec3(tempVel[0], tempVel[1], tempVel[3]);
+            m_acceleration = Vec3();
         );
+        i++;
     }
 }
 
