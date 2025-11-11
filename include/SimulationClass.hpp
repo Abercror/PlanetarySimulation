@@ -38,7 +38,9 @@ class Simulation{
 };
 
 template <typename T>
-Simulation<T>::Simulation(T tE, T pE, T kE, T t, bodyData pos, bodyData vel, std::vector<Particles<T>> bodies, functionPtr<T> method): m_totalEnergy(tE), m_totalPotentialEnergy(pE), m_totalKineticEnergy(kE), m_planetaryPositions(pos), m_planetaryVelocities(vel), m_bodies(bodies), m_method(method){}
+using bodyData = std::unordered_map<std::string, Vec3<T>>;
+template <typename T>
+Simulation<T>::Simulation(T tE, T pE, T kE, T t, bodyData pos, bodyData vel, std::vector<Particle<T>> bodies, functionPtr<T> method): m_totalEnergy(tE), m_totalPotentialEnergy(pE), m_totalKineticEnergy(kE), m_planetaryPositions(pos), m_planetaryVelocities(vel), m_bodies(bodies), m_method(method){}
 
 template <typename T>
 void Simulation<T>::updateEnergy(const T &G){
