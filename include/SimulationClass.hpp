@@ -76,24 +76,24 @@ using functionPtr = void (NumericalMethods<T>::*)(Particle<T> &p, const std::vec
 template <typename T>
 void Simulation<T>::numericalMethodChoice(std::string &method){
         std::unordered_map<std::string, functionPtr<T>> methods = {
-        {"euler": &NumericalMethods<T>::euler},
-        {"eulerCromer": &NumericalMethods<T>::eulerCromer},
-        {"verlet": &NumericalMethods<T>::verlet},
-        {"leapfrog": &NumericalMethods<T>::leapfrog},
-        {"yoshida4thOrder": &NumericalMethods<T>::yoshida4thOrder},
-        {"rungeKutta": &NumericalMethods<T>::rungeKutta}
-        {"vefrl": &NumericalMethods<T>::vefrl},
-        {"pefrl": &NumericalMethods<T>::pefrl}
+        {"euler", &NumericalMethods<T>::euler},
+        {"eulerCromer", &NumericalMethods<T>::eulerCromer},
+        {"verlet", &NumericalMethods<T>::verlet},
+        {"leapfrog", &NumericalMethods<T>::leapfrog},
+        {"yoshida4thOrder", &NumericalMethods<T>::yoshida4thOrder},
+        {"rungeKutta", &NumericalMethods<T>::rungeKutta}
+        {"vefrl", &NumericalMethods<T>::vefrl},
+        {"pefrl", &NumericalMethods<T>::pefrl}
     };
 
-    m_method = methods.at(method)
+    m_method = methods.at(method);
 }
 
 template <typename T>
 void Simulation<T>::updatePositionVelocity(const T &G, const T &dt){
 
     for(Particles<T> particle: m_bodies){
-        particle.*m_method(particle, m_bodies, dt, G);
+        (particle.*m_method)(particle, m_bodies, dt, G);
         m_planetaryPosition[particle.m_name] = particle.m_position;
         m_planetaryVelocity[particle.m_name] = particle.m_velocity;
     }
