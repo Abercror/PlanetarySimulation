@@ -1,5 +1,6 @@
 #pragma once
 #include "Vec3Class.hpp"
+#include "ParticleClass.hpp"
 #include <vector>
 #include <cmath>
 
@@ -20,7 +21,7 @@ class NumericalMethods{
 
         void yoshida4thOrder(Particle<T> &p, const std::vector<Particle<T>> &particles, const T &dt, const T &G);
 
-        void rungeKatta(Particle<T> &p, const std::vector<Particle<T>> &particles, const T &dt, const T &G);
+        void rungeKutta(Particle<T> &p, const std::vector<Particle<T>> &particles, const T &dt, const T &G);
 
         void pefrl(Particle<T> &p, const std::vector<Particle<T>> &particles, const T &dt, const T &G);
 
