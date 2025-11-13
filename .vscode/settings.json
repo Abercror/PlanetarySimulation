@@ -71,4 +71,7 @@
         "text_encoding": "cpp",
         "thread": "cpp"
     },
+    "C_Cpp.default.configurationProvider": "mesonbuild.mesonbuild",
+    "mesonbuild.configureOnOpen": false,
+    "C_Cpp.default.compileCommands": "/Users/rhysabercromby/Developer/Personal/C++/Projects/PlanetarySimulation/builddir/compile_commands.json",
 }
