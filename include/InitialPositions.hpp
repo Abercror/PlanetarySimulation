@@ -1,7 +1,7 @@
-#include "vsop87a_full_velocities.hpp"
-#include "vsop87_full.hpp"
+#include "MultilangVSOP87/vsop87a_full_velocities.h"
+#include "MultilangVSOP87/vsop87a_full.h"
 #include "ParticleClass.hpp"
-#include "VectorClass.hpp"
+#include "Vec3Class.hpp"
 #include <vector>
 #include <string>
 
@@ -13,10 +13,10 @@ struct PlanetConstants {
 };
 
 template <typename T>
-void planetProperties(int jd, std::vector<Particle<T>> &planets)
+void planetProperties(int jd, std::vector<Particle<T>> &planets);
 
 template <typename T>
-std:vector<Particle<T>> planetInitialisation(int jd)
+std::vector<Particle<T>> planetInitialisation(int jd);
 
 
 

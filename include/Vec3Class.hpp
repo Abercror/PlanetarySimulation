@@ -253,8 +253,6 @@ void Vec3<T>::operator/=(const Vec3<T> &B){
     m_z /= B.m_z;
 }
 
-
-
 //coordinate transformations
 template <typename T>
 void Vec3<T>::cartesianToCylindrical(){

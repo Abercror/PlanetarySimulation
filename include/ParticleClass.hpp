@@ -3,22 +3,23 @@
 #include "NumericalMethodsClass.hpp"
 #include <vector>
 #include <cmath>
+#include <string>
 
 template <typename T> constexpr T two  = T(2);
 template <typename T>
 
 class Particle: public NumericalMethods{
     private:
-        std::string m_name,
+        std::string m_name;
         T m_mass;
         T m_radius;
         Vec3<T> m_position;
         Vec3<T> m_velocity;
 
     public:
-        Particle(T m, T r, Vec3<T> p, Vec3<T> v);
+        Particle(std::string name, T m, T r, Vec3<T> p, Vec3<T> v);
 
-        void gravitationalAcceleration(Particle<T> &p, const Vec3<T> &thisPosition, std::vector<Particle<T>> &particles, const T &G);
+        Vec3<T> gravitationalAcceleration(Particle<T> &p, const Vec3<T> &thisPosition, const std::vector<Particle<T>> &particles, const T &G);
 
 };
 
@@ -29,8 +30,8 @@ Particle<T>::Particle(
         T m, 
         T r, 
         Vec3<T> p, 
-        Vec3<T> v,
-        ): m_name(name) m_mass(m), m_radius(r), m_position(p), m_velocity(v) {}
+        Vec3<T> v
+        ): m_name(name), m_mass(m), m_radius(r), m_position(p), m_velocity(v) {}
 
 //Newtonian Gravitational Acceleration
 template <typename T>

@@ -1,14 +1,13 @@
 #pragma once
 #include "Vec3Class.hpp"
 #include "ParticleClass.hpp"
+#include "NumericalMethodsClass.hpp"
 #include <unordered_map>
 #include <string>
 #include <vector>
 #include <cmath>
+#include <functional>
 
-
-template <typename T>
-using bodyData = std::unordered_map<std::string, Vec3<T>>;
 template <typename T> constexpr T two  = T(2);
 
 template <typename T>
@@ -18,14 +17,14 @@ class Simulation{
         T m_totalPotentialEnergy;
         T m_totalKineticEnergy;
         T m_time;
-        bodyData m_planetaryPositions;
-        bodyData m_planetaryVelocities;
+        std::unordered_map<std::string, Vec3<T>> m_planetaryPositions;
+        std::unordered_map<std::string, Vec3<T>> m_planetaryVelocities;
         std::vector<Particles<T>> m_bodies;
         functionPtr<T> m_method;
         
     public:
 
-        Simulation(T tE, T pE, T kE, T t, bodyData pos, bodyData vel, std::vector<Particles<T>> bodies);
+        Simulation(T tE, T pE, T kE, T t, std::unordered_map<std::string, Vec3<T>> pos, std::unordered_map<std::string, Vec3<T>> vel, std::vector<Particle<T>> bodies, std::function<void(Particle<T> &p, const std::vector<Particle<T>> &particles, const T &dt, const T &G)> method);
 
         void updateEnergy(const T &G);
 
@@ -38,7 +37,7 @@ class Simulation{
 };
 
 template <typename T>
-Simulation<T>::Simulation(T tE, T pE, T kE, T t, bodyData pos, bodyData vel, std::vector<Particle<T>> bodies, functionPtr<T> method): m_totalEnergy(tE), m_totalPotentialEnergy(pE), m_totalKineticEnergy(kE), m_planetaryPositions(pos), m_planetaryVelocities(vel), m_bodies(bodies), m_method(method){}
+Simulation<T>::Simulation(T tE, T pE, T kE, T t, std::unordered_map<std::string, Vec3<T>> pos, std::unordered_map<std::string, Vec3<T>> vel, std::vector<Particle<T>> bodies, std::function<void(Particle<T> &p, const std::vector<Particle<T>> &particles, const T &dt, const T &G)> method): m_totalEnergy(tE), m_totalPotentialEnergy(pE), m_totalKineticEnergy(kE), m_time(t), m_planetaryPositions(pos), m_planetaryVelocities(vel), m_bodies(bodies), m_method(method){}
 
 template <typename T>
 void Simulation<T>::updateEnergy(const T &G){
@@ -70,20 +69,18 @@ void Simulation<T>::updateEnergy(const T &G){
 }
 
 template <typename T>
-using functionPtr = void (NumericalMethods<T>::*)(Particle<T> &p, const std::vector<Particle<T>> &particles, const T &dt, const T &G);
-template <typename T>
 void Simulation<T>::numericalMethodChoice(std::string &method){
-        std::unordered_map<std::string, functionPtr<T>> methods = {
-        {"euler", &NumericalMethods<T>::euler},
-        {"eulerCromer", &NumericalMethods<T>::eulerCromer},
-        {"verlet", &NumericalMethods<T>::verlet},
-        {"leapfrog", &NumericalMethods<T>::leapfrog},
-        {"yoshida4thOrder", &NumericalMethods<T>::yoshida4thOrder},
-        {"rungeKutta", &NumericalMethods<T>::rungeKutta}
-        {"vefrl", &NumericalMethods<T>::vefrl},
-        {"pefrl", &NumericalMethods<T>::pefrl}
+        static const std::unordered_map<std::string, std::function<void(Particle<T> &, const std::vector<Particle<T>> &, const T &, const T &)>> methods = {
+        {"euler", euler},
+        {"eulerCromer", eulerCromer},
+        {"verlet", verlet},
+        {"leapfrog", leapfrog},
+        {"yoshida4thOrder", yoshida4thOrder},
+        {"rungeKutta", rungeKutta},
+        {"vefrl", vefrl},
+        {"pefrl", pefrl}
     };
-
+    
     m_method = methods.at(method);
 }
 
